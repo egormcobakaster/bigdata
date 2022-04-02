@@ -32,7 +32,7 @@ path = sys.argv[4]
 
 schema_graph = StructType([
     StructField("to", IntegerType(), False),
-    StructField("from", IntegerType(), False)
+    StructField("from1", IntegerType(), False)
 ])
 schema_dist = StructType([
     StructField("v", IntegerType(), False),
@@ -48,13 +48,13 @@ n = 0
 
 while True:
     candidates = (distances
-                  .join(edges, distances.v==edges.from)                   
+                  .join(edges, distances.v==edges.from1)                   
                  )
 
     candidates = candidates.drop('v')
     candidates = candidates.withColumnRenamed('distance','dist')
     candidates = candidates.withColumnRenamed('to_v','v1')
-    candidates = candidates.withColumnRenamed('from_v','{}'.format(n))
+    candidates = candidates.withColumnRenamed('from1','{}'.format(n))
     candidates = candidates.withColumn('dist', col('dist') + lit(1))
 
 
