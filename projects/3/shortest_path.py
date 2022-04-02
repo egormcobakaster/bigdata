@@ -2,7 +2,21 @@
 import os
 import sys
 
-from pyspark import SparkContext, SparkConf
+
+SPARK_HOME = "/usr/hdp/current/spark2-client"
+PYSPARK_PYTHON = "/opt/conda/envs/dsenv/bin/python"
+
+os.environ["PYSPARK_PYTHON"]= PYSPARK_PYTHON
+os.environ["SPARK_HOME"] = SPARK_HOME
+os.environ["PYSPARK_DRIVER_PYTHON"]= "/opt/conda/envs/dsenv/bin/python"
+os.environ["PYSPARK_EXECUTOR_PYTHON"]= "/opt/conda/envs/dsenv/bin/python"
+PYSPARK_HOME = os.path.join(SPARK_HOME, "python/lib")
+sys.path.insert(0, os.path.join(PYSPARK_HOME, "py4j-0.10.9.3-src.zip"))
+sys.path.insert(0, os.path.join(PYSPARK_HOME, "pyspark.zip"))
+
+from pyspark import SparkConf
+from pyspark.sql import SparkSession
+from pyspark import SparkContext
  
 conf = SparkConf()
 sc = SparkContext(appName="Pagerank", conf=conf)
