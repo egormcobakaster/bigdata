@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.join(PYSPARK_HOME, "py4j-0.10.9.3-src.zip"))
 sys.path.insert(0, os.path.join(PYSPARK_HOME, "pyspark.zip"))
 
 from pyspark.sql.types import *
-from pyspark import SparkConf
+from pyspark import SparkConf, SparkContext
 from pyspark.sql import SparkSession
 
 conf = SparkConf()
