@@ -38,10 +38,10 @@ schema_dist = StructType([
 ])
 
 
-edges = pyspark.read.csv(data, sep="\t", schema=schema_1)
+edges = spark.read.csv(data, sep="\t", schema=schema_1)
 edges.cache()
 
-distances = pyspark.createDataFrame([(v_from, 0)], schema_dist)
+distances = spark.createDataFrame([(v_from, 0)], schema_dist)
 n = 0
 
 while True:
