@@ -16,7 +16,8 @@ from pyspark import SparkConf, SparkContext
 from pyspark.sql import SparkSession
 
 conf = SparkConf()
-sc = SparkContext(appName="Pagerank", conf=conf)
+spark = SparkSession.builder.config(conf=conf).appName("Pagerank").getOrCreate()
+
 
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
@@ -37,10 +38,10 @@ schema_dist = StructType([
 ])
 
 
-edges = spark.read.csv(data, sep="\t", schema=schema_1)
+edges = pyspark.read.csv(data, sep="\t", schema=schema_1)
 edges.cache()
 
-distances = spark.createDataFrame([(v_from, 0)], schema_dist)
+distances = pyspark.createDataFrame([(v_from, 0)], schema_dist)
 n = 0
 
 while True:
