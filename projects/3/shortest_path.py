@@ -11,13 +11,14 @@ PYSPARK_HOME = os.path.join(SPARK_HOME, "python/lib")
 sys.path.insert(0, os.path.join(PYSPARK_HOME, "py4j-0.10.9.3-src.zip"))
 sys.path.insert(0, os.path.join(PYSPARK_HOME, "pyspark.zip"))
 
-from pyspark.sql.types import *
+
 from pyspark import SparkConf, SparkContext
 from pyspark.sql import SparkSession
 
 conf = SparkConf()
-spark = SparkContext(appName="Pagerank", conf=conf)
-
+sc = SparkContext(appName="Pagerank", conf=conf)
+from pyspark.sql import SQLContext
+sqlContext = SQLContext(sc)
 
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
@@ -38,10 +39,10 @@ schema_dist = StructType([
 ])
 
 
-edges = spark.read.csv(data, sep="\t", schema=schema_1)
+edges = sqlContext.read.csv(data, sep="\t", schema=schema_1)
 edges.cache()
 
-distances = spark.createDataFrame([(v_from, 0)], schema_dist)
+distances = sqlContext.createDataFrame([(v_from, 0)], schema_dist)
 n = 0
 
 while True:
