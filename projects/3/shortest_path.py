@@ -11,7 +11,7 @@ PYSPARK_HOME = os.path.join(SPARK_HOME, "python/lib")
 sys.path.insert(0, os.path.join(PYSPARK_HOME, "py4j-0.10.9.3-src.zip"))
 sys.path.insert(0, os.path.join(PYSPARK_HOME, "pyspark.zip"))
 
-
+from pyspark.sql.types import *
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
 
@@ -28,7 +28,7 @@ v_to = sys.argv[2]
 data = sys.argv[3]
 path = sys.argv[4]
 
-schema_graph = StructType([
+schema_1 = StructType([
     StructField("to", IntegerType(), False),
     StructField("from1", IntegerType(), False)
 ])
@@ -38,7 +38,7 @@ schema_dist = StructType([
 ])
 
 
-edges = spark.read.csv(data, sep="\t", schema=schema_graph)
+edges = spark.read.csv(data, sep="\t", schema=schema_1)
 edges.cache()
 
 distances = spark.createDataFrame([(v_from, 0)], schema_dist)
