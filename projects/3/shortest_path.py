@@ -30,12 +30,12 @@ data = sys.argv[3]
 path = sys.argv[4]
 
 schema_1 = StructType([
-    StructField("to", IntegerType(), False),
-    StructField("from1", IntegerType(), False)
+    StructField("to", StringType(), False),
+    StructField("from1", StringType(), False)
 ])
 schema_dist = StructType([
-    StructField("v", IntegerType(), False),
-    StructField("distance", IntegerType(), False)
+    StructField("v", StringType(), False),
+    StructField("distance", StringType(), False)
 ])
 
 
