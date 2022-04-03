@@ -55,8 +55,7 @@ while True:
     candidates = candidates.withColumnRenamed('to','v1')
     candidates = candidates.withColumnRenamed('from1','{}'.format(n))
     candidates = candidates.withColumn('dist', col('dist') + lit(1))
-    candidates.show()
-    print('{}'.format(n))
+
     new_distances = (distances
                      .join(candidates, distances.v==candidates.v1, how="full_outer")
                      .select("v1",
