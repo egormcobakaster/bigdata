@@ -16,8 +16,7 @@ from pyspark import SparkConf
 from pyspark.sql import SparkSession
 
 conf = SparkConf()
-
-spark = SparkSession.builder.config(conf=conf).appName("Spark SQL").getOrCreate()
+sc = SparkContext(appName="Pagerank", conf=conf)
 
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
