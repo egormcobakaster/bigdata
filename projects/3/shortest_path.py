@@ -30,8 +30,8 @@ data = sys.argv[3]
 path = sys.argv[4]
 
 schema_1 = StructType([
-    StructField("from1", StringType(), False),
-    StructField("to", StringType(), False)
+    StructField("to", StringType(), False),
+    StructField("from1", StringType(), False)
 ])
 schema_dist = StructType([
     StructField("v", StringType(), False),
@@ -90,5 +90,6 @@ if n<1000:
     distances = distances.withColumn("v", distances['{}'.format(n-1)])
     distances = distances.withColumn('{}'.format(n-1), distances.tmp)
     distances = distances.drop("tmp")
+    distances = distances.drop("distance")
     distances = distances.where(distances['{}'.format(n-1)]==v_to)
     distances.write.format("csv").save(path, sep=',')
