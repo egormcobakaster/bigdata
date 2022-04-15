@@ -32,7 +32,7 @@ schema = StructType([
 ])
 
 dataset = spark.read.json(test_path, schema=schema)
-
+dataset = dataset.repartition(100).cache()
 model = PipelineModel.load(model_path)
 prediction = pipeline_model.transform(dataset)
 prediction = prediction.withColumn("prediction", when(prediction.prediction > 5, 5)
