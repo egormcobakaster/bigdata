@@ -7,13 +7,13 @@ from pyspark.ml import Pipeline
 stop_words = StopWordsRemover.loadDefaultStopWords("english")
 tokenizer = Tokenizer(inputCol="reviewText", outputCol="words1")
 swr = StopWordsRemover(inputCol=tokenizer.getOutputCol(), outputCol="words_filtered", stopWords=stop_words)
-word2Vec1 = Word2Vec(vectorSize=100, minCount=7, inputCol=swr.getOutputCol(), outputCol="result")
-lr = LinearRegression(featuresCol=word2Vec1.getOutputCol(), labelCol="overall", maxIter=50)
+count_vectorizer = CountVectorizer(inputCol=swr.getOutputCol(), outputCol="word_vector")
+lr = LinearRegression(featuresCol=count_vectorizer.getOutputCol(), labelCol="overall", maxIter=50)
 
 
 pipeline = Pipeline(stages=[
     tokenizer,
     swr,
-    word2Vec1,
+    count_vectorizer,
     lr
 ])
