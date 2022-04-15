@@ -38,7 +38,7 @@ schema = StructType([
 ])
 
 dataset = spark.read.json(train_path, schema=schema)
-
+dataset = dataset.repartition(100).cache()
 pipeline_model = pipeline.fit(dataset)
 
 pipeline_model.write().overwrite().save(model_path)
