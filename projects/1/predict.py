@@ -25,7 +25,7 @@ logging.info("num {}".format(11))
 
 #read and infere
 read_opts=dict(
-        sep='\t', names=[fields[0] + fields[2:]], index_col='id',
+        sep='\t', names=[fields[0]] + fields[2:], index_col='id',
         iterator=True, chunksize=100000
 )
 for df in pd.read_table(sys.stdin, **read_opts):
