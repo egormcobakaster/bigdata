@@ -41,10 +41,10 @@ logging.info(f"TRAIN_PATH {train_path}")
 
 read_table_opts = dict(sep="\t", names=fields, index_col=False)
 df = pd.read_table(train_path, **read_table_opts)
-ind = list(range(2, len(fields)))
+
 #split train/test
 X_train, X_test, y_train, y_test = train_test_split(
-        df[numeric_features + categorical_features], df.iloc[:,1], test_size=0.33, random_state=42
+        df[fields[0] + fields[2:]], df[fields[1]], test_size=0.33, random_state=42
 )
 print(numeric_features, categorical_features)
 #
