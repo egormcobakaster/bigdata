@@ -13,7 +13,7 @@ numeric_features = ["if"+str(i) for i in range(1,14)]
 categorical_features = ["cf"+str(i) for i in range(1,27)]+ ["day_number"]
 
 fields = ["id", "label"] + numeric_features + categorical_features
-remove_cat_features = ['cf20', 'cf10', 'cf1', 'cf22', 'cf11', 'cf12', 'cf21', 'cf23', 'day_number']
+remove_cat_features = ['cf20', 'cf10', 'cf1', 'cf22', 'cf11', 'cf12', 'cf21', 'cf23']
 categorical_features_new = list(categorical_features)
 for feat in remove_cat_features:
     categorical_features_new.remove(feat)
