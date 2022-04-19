@@ -27,6 +27,8 @@ if len(filter_cond_files) != 1:
     sys.exit(1)
 
 exec(open(filter_cond_files[0]).read())
+logging.info("SCRIPT CALLED AS {}".format(sys.argv[0]))
+logging.info("fields {}".format(fields))
 for line in sys.stdin:
     if line.startswith(fields[0]):
         continue
