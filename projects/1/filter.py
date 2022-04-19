@@ -34,7 +34,7 @@ for line in sys.stdin:
         continue
     #unpack into a tuple/dict
     values = line.rstrip().split('\t')
-    record = dict(zip(fields, values))
+    record = dict(zip(outfields, values))
     if filter_cond(record):
         output = "\t".join([record[x] for x in outfields])
         print(output)
