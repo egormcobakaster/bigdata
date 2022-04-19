@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 
 sys.path.append('.')
-from model import fields, numeric_features, categorical_features, features
+from model import fields
 
 #
 # Init the logger
