@@ -25,7 +25,7 @@ logging.info(f"FILTERS {filter_cond_files}")
 if len(filter_cond_files) != 1:
     logging.critical("Must supply exactly one filter")
     sys.exit(1)
-
+outfields = [fields[0]] + fields[2:]
 exec(open(filter_cond_files[0]).read())
 logging.info("SCRIPT CALLED AS {}".format(sys.argv[0]))
 logging.info("fields {}".format(fields))
@@ -36,5 +36,5 @@ for line in sys.stdin:
     values = line.rstrip().split('\t')
     record = dict(zip(fields, values))
     if filter_cond(record):
-        output = "\t".join([record[x] for x in fields])
+        output = "\t".join([record[x] for x in outfields])
         print(output)
