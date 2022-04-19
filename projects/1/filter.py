@@ -28,12 +28,11 @@ if len(filter_cond_files) != 1:
 
 exec(open(filter_cond_files[0]).read())
 for line in sys.stdin:
-
+    if line.startswith(fields[0]):
+        continue
     #unpack into a tuple/dict
-    values = line.split('\t')
-    if values[1] != '':
-        data_line = dict(zip(features, values))
-
-        if filter_cond(data_line):
-            output = "\t".join([data_line[x] for x in features])
-            print(output)
+    values = line.rstrip().split('\t')
+    record = dict(zip(fields, values))
+    if filter_cond(record):
+        output = "\t".join([data_line[x] for x in fields])
+        print(output)
