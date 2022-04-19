@@ -34,5 +34,5 @@ for line in sys.stdin:
     values = line.rstrip().split('\t')
     record = dict(zip(fields, values))
     if filter_cond(record):
-        output = "\t".join([data_line[x] for x in fields])
+        output = "\t".join([record[x] for x in fields])
         print(output)
