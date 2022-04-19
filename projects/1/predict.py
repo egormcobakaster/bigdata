@@ -34,5 +34,5 @@ for df in pd.read_table(sys.stdin, **read_opts):
     if df.size == 0:
         continue
     pred = model.predict_proba(df)
-    out = zip(df.index, pred)
+    out = zip(df.index, pred[:,1])
     print("\n".join(["{0}\t{1}".format(*i) for i in out]))
