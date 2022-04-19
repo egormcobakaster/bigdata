@@ -25,13 +25,14 @@ logging.info("num {}".format(11))
 
 #read and infere
 read_opts=dict(
-        sep='\t', names=features, index_col=False, header=None,
+        sep='\t', names=[fields[0] + fields[2:]], index_col='id',
         iterator=True, chunksize=100000
 )
 for df in pd.read_table(sys.stdin, **read_opts):
-    df = df.dropna(axis=1, how='all')
+    if len(df) == 0:
+        continue
     if df.size == 0:
         continue
-    pred = model.predict(df[numeric_features + categorical_features])
-    out = zip(df.id, pred)
+    pred = model.predict(df)
+    out = zip(df.index, pred)
     print("\n".join(["{0}\t{1}".format(*i) for i in out]))
