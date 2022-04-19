@@ -6,7 +6,7 @@ from glob import glob
 import logging
 import pandas as pd
 sys.path.append('.')
-from model import fields, features
+from model import fields
 
 #
 # Init the logger
