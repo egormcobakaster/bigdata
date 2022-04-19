@@ -8,7 +8,7 @@ import joblib
 #
 # Import model definition
 #
-from model import model, fields, numeric_features, categorical_features, features
+from model import model, fields
 
 
 #
@@ -46,7 +46,7 @@ df = pd.read_table(train_path, **read_table_opts)
 X_train, X_test, y_train, y_test = train_test_split(
         df[fields[0] + fields[2:]], df[fields[1]], test_size=0.33, random_state=42
 )
-print(numeric_features, categorical_features)
+
 #
 # Train the model
 #
