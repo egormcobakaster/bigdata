@@ -1,6 +1,6 @@
 #!/opt/conda/envs/dsenv/bin/python
 import sys, os
-import logging
+
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -23,7 +23,7 @@ try:
   param = sys.argv[2]
   train_path = sys.argv[1]
 except:
-  logging.critical("Need to pass both project_id and train dataset path")
+  
   sys.exit(1)
 numeric_features = ["if"+str(i) for i in range(1,14)]
 categorical_features = ["cf"+str(i) for i in range(1,27)]+ ["day_number"]
@@ -73,21 +73,8 @@ model = Pipeline(steps=[
 #
 # Logging initialization
 #
-logging.basicConfig(level=logging.DEBUG)
-logging.info("CURRENT_DIR {}".format(os.getcwd()))
-logging.info("SCRIPT CALLED AS {}".format(sys.argv[0]))
-logging.info("ARGS {}".format(sys.argv[1:]))
-
-#
-# Read script arguments
-#
 
 
-
-logging.info(f"TRAIN_ID {proj_id}")
-logging.info(f"TRAIN_PATH {train_path}")
-
-#
 # Read dataset
 #
 #fields = """doc_id,hotel_name,hotel_url,street,city,state,country,zip,class,price,
@@ -105,20 +92,10 @@ X_train, X_test, y_train, y_test = train_test_split(
 #
 # Train the model
 #
-model1 =model.fit(X_train, y_train)
-
-model_score = model1.score(X_test, y_test)
-
-logging.info(f"model score: {model_score:.3f}")
-
-model_score = model1.score(X_test, y_test)
-
-logging.info(f"model score: {model_score:.3f}")
 with mlflow.start_run():
-    estimator = model()
-    mlflow.log_params(estimator.get_params())
-    estimator.fit(X_train, y_train)
+    estimator = model.fit(X_train, y_train)
+    mlflow.log_params(estimator['logreg'].get_params())
     y_pred = estimator.predict_proba(X_test)[:,1]
     log_loss = sklearn.metrics.log_loss(y_test, y_pred)
     mlflow.log_metric("log_loss", log_loss)
-    mlflow.sklearn.log_model(estimator, artifact_path="models")
+    mlflow.sklearn.log_model(estimator, "reg_model")
