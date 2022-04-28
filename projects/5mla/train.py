@@ -98,4 +98,4 @@ with mlflow.start_run():
     y_pred = estimator.predict_proba(X_test)[:,1]
     log_loss = sklearn.metrics.log_loss(y_test, y_pred)
     mlflow.log_metric("log_loss", log_loss)
-    mlflow.sklearn.log_model(estimator, artifact_path"reg_model")
+    mlflow.sklearn.log_model(estimator, artifact_path="reg_model")
