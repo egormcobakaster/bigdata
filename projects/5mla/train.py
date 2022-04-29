@@ -31,9 +31,8 @@ categorical_features = ["cf"+str(i) for i in range(1,27)]+ ["day_number"]
 
 fields = ["id", "label"] + numeric_features + categorical_features
 remove_cat_features = ['cf20', 'cf10', 'cf1', 'cf22', 'cf11', 'cf12', 'cf21', 'cf23']
-categorical_features_new = list(categorical_features)
-for feat in remove_cat_features:
-    categorical_features_new.remove(feat)
+categorical_features_new = ['cf2', 'cf3', 'cf4', 'cf5', 'cf6', 'cf15', 'cf9', 'cf26']
+
 new_fields = ["id", "label"] + numeric_features + categorical_features_new
 #
 # Model pipeline
@@ -95,7 +94,7 @@ X = df[names]
 mlflow.log_param("param5", "This is a param5")
 y = df[fields[1]]
 mlflow.log_param("param4", "This is a param4")
-estimator = model.fit(X[:2000], y[:2000])
+estimator = model.fit(X[:20000], y[:20000])
 mlflow.log_param("param6", "This is a param6")
 mlflow.log_params(estimator['logreg'].get_params())
 y_pred = estimator.predict_proba(df[names][:10000])[:,1]
