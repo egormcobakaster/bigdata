@@ -80,22 +80,24 @@ model = Pipeline(steps=[
 #fields = """doc_id,hotel_name,hotel_url,street,city,state,country,zip,class,price,
 #num_reviews,CLEANLINESS,ROOM,SERVICE,LOCATION,VALUE,COMFORT,overall_ratingsource""".replace("\n",'').split(",")
 
+mlflow.log_param("param2", "This is a param2")
 read_table_opts = dict(sep="\t", names=fields, index_col=False)
 df = pd.read_table(train_path, **read_table_opts)
+mlflow.log_param("param0", "This is a param0")
 
-#split train/test
 names = [fields[0]] + fields[2:]
-X_train, X_test, y_train, y_test = train_test_split(
-        df[names], df[fields[1]], test_size=0.33, random_state=42
-)
-
+mlflow.log_param("param3", "This is a param3")
+mlflow.log_param("param1", "This is a param1")
 #
 # Train the model
-#
-with mlflow.start_run():
-    estimator = model.fit(X_train, y_train)
-    mlflow.log_params(estimator['logreg'].get_params())
-    y_pred = estimator.predict_proba(X_test)[:,1]
-    log_loss = sklearn.metrics.log_loss(y_test, y_pred)
-    mlflow.log_metric("log_loss", log_loss)
-    mlflow.sklearn.log_model(estimator, artifact_path="reg_model")
+X = df[names]
+mlflow.log_param("param5", "This is a param5")
+y = df[fields[1]]
+mlflow.log_param("param4", "This is a param4")
+estimator = model.fit(X[:10000], y[:10000])
+mlflow.log_param("param6", "This is a param6")
+mlflow.log_params(estimator['logreg'].get_params())
+y_pred = estimator.predict_proba(df[names])[:,1]
+log_loss = sklearn.metrics.log_loss(df[fields[1]], y_pred)
+mlflow.log_metric("log_loss", log_loss)
+mlflow.sklearn.log_model(estimator, artifact_path="pipeline")
