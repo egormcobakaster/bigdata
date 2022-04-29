@@ -24,16 +24,12 @@ try:
   param = sys.argv[2]
   train_path = sys.argv[1]
 except:
-  
   sys.exit(1)
 numeric_features = ["if"+str(i) for i in range(1,14)]
-categorical_features = ["cf"+str(i) for i in range(1,27)]+ ["day_number"]
+categorical_features = ["cf"+str(i) for i in range(1,27)]
 
-fields = ["id", "label"] + numeric_features + categorical_features
-remove_cat_features = ['cf20', 'cf10', 'cf1', 'cf22', 'cf11', 'cf12', 'cf21', 'cf23']
-categorical_features_new = ['cf2', 'cf3', 'cf4', 'cf5', 'cf6', 'cf15', 'cf9', 'cf26']
-
-new_fields = ["id", "label"] + numeric_features + categorical_features_new
+fields = ["id", "label"] + numeric_features + categorical_features+ ["day_number"]
+categorical_features_new = categorical_features[:5]
 #
 # Model pipeline
 #
@@ -42,7 +38,7 @@ new_fields = ["id", "label"] + numeric_features + categorical_features_new
 
 numeric_transformer = Pipeline(steps=[
     ('imputer', SimpleImputer(strategy='median')),
-#    ('scaler', StandardScaler())
+    ('scaler', StandardScaler())
 ])
 
 
@@ -53,8 +49,7 @@ categorical_transformer = Pipeline(steps=[
 
 preprocessor = ColumnTransformer(
     transformers=[
-        ('num', numeric_transformer, numeric_features),
-        ('cat', categorical_transformer, categorical_features_new)
+        ('num', numeric_transformer, numeric_features)
     ]
 )
 logreg_opts = dict(
