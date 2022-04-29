@@ -92,9 +92,10 @@ mlflow.log_param("param1", "This is a param1")
 # Train the model
 X = df[names]
 mlflow.log_param("param5", "This is a param5")
+mlflow.log_param("size", X.size())
 y = df[fields[1]]
 mlflow.log_param("param4", "This is a param4")
-estimator = model.fit(X[:20000], y[:20000])
+estimator = model.fit(X, y)
 mlflow.log_param("param6", "This is a param6")
 mlflow.log_params(estimator['logreg'].get_params())
 y_pred = estimator.predict_proba(df[names][:10000])[:,1]
