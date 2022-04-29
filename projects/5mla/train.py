@@ -97,7 +97,7 @@ mlflow.log_param("param4", "This is a param4")
 estimator = model.fit(X[:10000], y[:10000])
 mlflow.log_param("param6", "This is a param6")
 mlflow.log_params(estimator['logreg'].get_params())
-y_pred = estimator.predict_proba(df[names])[:,1]
-log_loss = sklearn.metrics.log_loss(df[fields[1]], y_pred)
+y_pred = estimator.predict_proba(df[names][:10000])[:,1]
+log_loss = sklearn.metrics.log_loss(df[fields[1]][:10000], y_pred)
 mlflow.log_metric("log_loss", log_loss)
 mlflow.sklearn.log_model(estimator, artifact_path="pipeline")
