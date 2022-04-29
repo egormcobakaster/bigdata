@@ -99,4 +99,4 @@ mlflow.log_params(estimator['logreg'].get_params())
 y_pred = estimator.predict_proba(df[names])[:,1]
 log_loss = sklearn.metrics.log_loss(df[fields[1]], y_pred)
 mlflow.log_metric("log_loss", log_loss)
-mlflow.sklearn.log_model(estimator, artifact_path="pipeline")
+mlflow.sklearn.log_model(estimator, artifact_path="model")
