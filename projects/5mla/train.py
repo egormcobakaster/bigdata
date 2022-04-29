@@ -92,8 +92,6 @@ mlflow.log_param("param1", "This is a param1")
 # Train the model
 X = df[names]
 mlflow.log_param("param5", "This is a param5")
-l = X.size
-mlflow.log_param("size", X.size())
 y = df[fields[1]]
 mlflow.log_param("param4", l)
 estimator = model.fit(X, y)
