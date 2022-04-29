@@ -28,8 +28,12 @@ except:
 numeric_features = ["if"+str(i) for i in range(1,14)]
 categorical_features = ["cf"+str(i) for i in range(1,27)]
 
-fields = ["id", "label"] + numeric_features + categorical_features+ ["day_number"]
-categorical_features_new = categorical_features[:5]
+fields = ["id", "label"] + numeric_features + categorical_features + ["day_number"]
+remove_cat_features = ['cf20', 'cf10', 'cf1', 'cf22', 'cf11', 'cf12', 'cf21', 'cf23']
+categorical_features_new = list(categorical_features)
+for feat in remove_cat_features:
+    categorical_features_new.remove(feat)
+new_fields = ["id", "label"] + numeric_features + categorical_features_new
 #
 # Model pipeline
 #
@@ -50,6 +54,7 @@ categorical_transformer = Pipeline(steps=[
 preprocessor = ColumnTransformer(
     transformers=[
         ('num', numeric_transformer, numeric_features)
+        ('cat', categorical_transformer, categorical_features_new)
     ]
 )
 logreg_opts = dict(
@@ -74,7 +79,6 @@ model = Pipeline(steps=[
 #
 #fields = """doc_id,hotel_name,hotel_url,street,city,state,country,zip,class,price,
 #num_reviews,CLEANLINESS,ROOM,SERVICE,LOCATION,VALUE,COMFORT,overall_ratingsource""".replace("\n",'').split(",")
-
 mlflow.log_param("param2", "This is a param2")
 read_table_opts = dict(sep="\t", names=fields, index_col=False)
 df = pd.read_table(train_path, **read_table_opts)
@@ -88,12 +92,11 @@ mlflow.log_param("param1", "This is a param1")
 X = df[names]
 mlflow.log_param("param5", "This is a param5")
 y = df[fields[1]]
-
-mlflow.log_param("size", "This is a param6")
-estimator = model.fit(X[:100000000], y[:100000000])
+mlflow.log_param("size", df[:1000000][df['label']==1].size)
+estimator = model.fit(X[:200000000], y[:200000000])
 mlflow.log_param("param6", "This is a param6")
 mlflow.log_params(estimator['logreg'].get_params())
-y_pred = estimator.predict_proba(df[names][:10000])[:,1]
-log_loss = sklearn.metrics.log_loss(df[fields[1]][:10000], y_pred)
+y_pred = estimator.predict_proba(df[names])[:,1]
+log_loss = sklearn.metrics.log_loss(df[fields[1]], y_pred)
 mlflow.log_metric("log_loss", log_loss)
-mlflow.sklearn.log_model(estimator, artifact_path="model")
+mlflow.sklearn.log_model(estimator, artifact_path="pipeline")
