@@ -25,7 +25,7 @@ logging.info("num {}".format(11))
 logging.info("num {}".format(fields))
 #read and infere
 read_opts=dict(
-        sep='\t', names=[fields[0]] + fields[2:], index_col='id',
+        sep='\t', names=[fields[0]] + fields[2:],
         iterator=True, chunksize=100000
 )
 for df in pd.read_table(sys.stdin, **read_opts):
@@ -34,5 +34,5 @@ for df in pd.read_table(sys.stdin, **read_opts):
     if df.size == 0:
         continue
     pred = model.predict_proba(df)
-    out = zip(df.index, pred[:,1])
+    out = zip(df['id'], pred[:,1])
     print("\n".join(["{0}\t{1}".format(*i) for i in out]))
