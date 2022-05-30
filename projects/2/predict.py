@@ -22,7 +22,7 @@ model = load("2.joblib")
 logging.info("num {}".format(11))
 #fields = """doc_id,hotel_name,hotel_url,street,city,state,country,zip,class,price,
 #num_reviews,CLEANLINESS,ROOM,SERVICE,LOCATION,VALUE,COMFORT,overall_ratingsource""".replace("\n",'').split(",")
-
+logging.info("num {}".format(fields))
 #read and infere
 read_opts=dict(
         sep='\t', names=[fields[0]] + fields[2:], index_col='id',
